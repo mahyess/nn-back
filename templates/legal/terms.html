@@ -1,0 +1,36 @@
+{% extends 'legal/master.html' %}
+{% block content %}
+{% load staticfiles %}
+
+  <div class="ui main text container">
+    <h1 class="ui header">Terms & Conditions</h1>
+    <p></p>
+  </div>
+
+
+  <div class="ui borderless main menu">
+    <div class="ui text container">
+      <div class="header item">
+        <a href="/"><img class="logo" src="{% static 'img/icons/android-icon-48x48.png' %}"></a>
+        NamasteNepal
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui text container">
+    <div class="overlay">
+      <div class="ui labeled icon vertical menu">
+        <a class="item" href="/">Chautari</a>
+        <a class="item" href="{% url 'privacy-policy'%}"> Privacy Policy</a>
+        <a class="item" href="{% url 'storage-tech'%}"> Storage Technology</a>
+      </div>
+    </div>
+    <div style="text-align: justify; text-justify: inter-word;">
+        {% for d in data %}
+            {{d.content|safe}}
+        {% endfor %}
+    </div>
+     </div>
+
+{% endblock %}

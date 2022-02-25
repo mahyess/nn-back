@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-compatible" content="IE-edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="NamasteNepal" />
+    <meta name="apple-mobile-web-app-title" content="namastenepal" />
+    <meta name="theme-color" content="#772e4a" />
+    <meta name="msapplication-navbutton-color" content="#772e4a" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="msapplication-starturl" content="/" />
+    <meta name="msapplication-TileColor" content="#772e4a" />
+    <meta name="title" content="NamasteNepal - All Nepalese at one place" />
+    <meta
+      name="description"
+      content="A social networking site for Nepal and Nepalese people."
+    />
+    <meta
+      name="robots"
+      content="A social networking site for Nepal and Nepalese people."
+    />
+    <meta
+      name="keywords"
+      content="social, nepali social, namastenepal, namaste nepal, nepali social network, nepali chautari, chautari"
+    />
+    <meta
+      name="googlebot"
+      content="A social networking site for Nepal and Nepalese people."
+    />
+    <meta name="google" content="notranslate" />
+    <meta name="author" content="Anish Shrestha" />
+    {% load static %}
+    <meta
+      property="og:title"
+      content="NamasteNepal - All Nepalese at one place"
+    />
+    <meta
+      property="og:description"
+      content="A social networking site for Nepal and Nepalese people."
+    />
+    <meta
+      property="og:image"
+      content="{% static 'media/namaste.c2b9bced.png' %}"
+    />
+    <meta property="og:url" content="http://www.namastenepal.com/" />
+    <link
+      rel="preload"
+      href="{% static 'css/reactify-django.ui.css' %}"
+      as="style"
+    />
+    <link rel="preload" href="{% static 'js/registerSw.js' %}" as="script" />
+
+    <link
+      rel="preload"
+      href="{% static 'js/reactify-django.ui.js' %}"
+      as="script"
+    />
+
+    <meta name="twitter:card" content="namastenepal" />
+    <meta property="og:site_name" content="NamasteNepal" />
+    <meta name="twitter:image:alt" content="namastenepal image" />
+    <meta name="twitter:site" content="@namastenepal" />
+    <meta
+      name="msapplication-TileImage"
+      content="{% static 'media/namaste.c2b9bced.png' %}"
+    />
+    {% include 'css.html' %}
+    <title>NamasteNepal</title>
+    <link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}" />
+    <link rel="manifest" href="{% static 'media/manifest.json' %}" />
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div class="container" id="app">
+      {% block content %} {% endblock content %}
+    </div>
+
+    {% include 'js.html' %}
+  </body>
+</html>

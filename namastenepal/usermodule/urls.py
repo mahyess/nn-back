@@ -1,0 +1,41 @@
+from django.urls import path
+from .views import (
+    Friends,
+    unfriend,
+    SendFriendRequest,
+    SentFriendRequests,
+    cancel_friend_request,
+    cancel_incoming_friend_request,
+    SuggestedFriends,
+    ReceivedFriendRequests,
+    get_user_points,
+    get_user_details,
+    change_avatar,
+    change_cover,
+    EditProfile,
+    block_user,
+    request_celeb_verify,
+    respond_celeb_verify_request,
+    user_posts_gallery,
+)
+
+
+urlpatterns = [
+    path("profile/change-avatar/", change_avatar),
+    path("profile/edit-profile/", EditProfile.as_view()),
+    path("profile/change-cover/", change_cover),
+    path("get-user-points/", get_user_points),
+    path("friends-list/", Friends.as_view()),
+    path("get-suggested-friends/", SuggestedFriends.as_view()),
+    path("friend-requests/", ReceivedFriendRequests.as_view()),
+    path("friend-requests/sent/", SentFriendRequests.as_view()),
+    path("friend-requests/cancel-outgoing/", cancel_friend_request),
+    path("friend-requests/cancel-incoming/", cancel_incoming_friend_request),
+    path("send-friend-request/", SendFriendRequest.as_view()),
+    path("friend/unfriend/", unfriend),
+    path("block-user/", block_user),
+    path("request-verify/", request_celeb_verify),
+    path("respond-verify/<str:celeb_verify_id>/", respond_celeb_verify_request),
+    path("<str:username>/gallery/", user_posts_gallery),
+    path("<str:username>/get-user-details/", get_user_details),
+]

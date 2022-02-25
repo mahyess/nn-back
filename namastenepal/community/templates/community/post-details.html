@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NamasteNepal</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-compatible" content="IE-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="NamasteNepal">
+    <meta name="apple-mobile-web-app-title" content="namastenepal">
+    <meta name="theme-color" content="#772e4a">
+    <meta name="msapplication-navbutton-color" content="#772e4a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/login/">
+    <meta name="msapplication-TileColor" content="#772e4a">
+    <meta name="title" content="{{data.tile}}">
+    <meta name="description" content="{{data.body}}">
+    <meta name="robots" content="A social networking site for Nepal and Nepalese people." />
+    <meta name="googlebot" content="A social networking site for Nepal and Nepalese people." />
+    <meta name="google" content="notranslate" />
+    <meta name="author" content="Anish Shrestha">
+    {% load static %}
+    <meta property="og:title" content="{{data.title}}" />
+    <meta property="og:description" content="{{data.body}}" />
+    <meta property="og:url" content="{{ request.get_host }}{{ request.get_full_path }}" />
+    <meta property="og:site_name" content="NamasteNepal" />
+
+    <meta name="twitter:card" content="{{data.title}}" />
+    <meta property="twitter:title" content="{{data.title}}" />
+    <meta property="twitter:description" content="{{data.body}}" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@NamasteNepal">
+    <meta name="twitter:title" content="{{data.title}}">
+    <meta name="twitter:description" content="{{data.body}}">
+    <meta name="twitter:creator" content="@NamasteNepal">
+    {% if data.media %}
+    <meta property="og:image" content="{{data.media.url}}" />
+    <meta name="twitter:image" content={{data.media.url}}>
+    {% endif %}
+    <meta property="twitter:url" content="https://www.namastenepal.com" />
+    <meta name="twitter:image:alt" content="NamasteNepal" />
+    <meta name="msapplication-TileImage" content="{% static 'media/namaste.c2b9bced.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+
+    <link rel="shortcut icon" href="{% static 'img/icons/favicon.ico' %}">
+    <link rel="manifest" href="{% static 'media/manifest.json' %}">
+</head>
+<body>
+{% include 'navbar.html' %}
+{% load file_type %}
+{% load target_blank %}
+<div class="ui centered container stackable grid ">
+    <div class="eight wide column" >
+        <div class="ui segment">
+            <div class="ui items">
+                <div class="item">
+                    <div class="content">
+                    <a class="header"><img class="ui avatar image" src={{data.user.profile.avatar.url}}>{{data.user}}</a>
+                  <div class="ui divider"></div>
+                  <a class="ui header">{{data.title}}</a> posted On {{data.timestamp}}
+                  <div class="description">
+                    <p>{{data.body|urlize|url_target_blank }}</p>
+
+                    {% if data.media %}
+                      {% check_type data.media.url as test %}
+                      {% if test == 'images' %}
+                      <div class="_holder">
+                           <a id="img-modal{{data.id}}">
+                               <img class="ui huge image" src="{{data.media.url}}" width="100%" />
+                           </a>
+                      </div>
+
+                        {% elif  test == 'videos' %}
+                            <video name='{{data.media}}' controls width='50%' height='40%'>
+                            <source src="{{data.media.url}}" type="video/mp4">
+                            </video>
+                        {% else %}
+                            <h5>This file format is not supported</h5>
+                        {% endif %}
+                      {% endif %}
+
+                  </div>
+                  <div class="extra content">
+                    {{data.likes.count}} Namaste
+
+                     {{data.comments.count}} Chalfal
+                  </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui bottom attached warning message ">
+
+  <a href="/login/">Login</a> to view all contents of NamasteNepal.
+</div>
+    </div>
+</div>
+</body>
+</html>

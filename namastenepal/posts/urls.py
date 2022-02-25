@@ -1,0 +1,42 @@
+from django.urls import path
+
+from .views import (
+    PostAPI,
+    PostDetailAPI,
+    CommunityPostAPI,
+    get_pinned_post,
+    # GetUserTaggedPosts,
+    FriendsPosts,
+    UserPosts,
+    HashTagPostAPI,
+    like,
+    delete,
+    up_vote,
+    down_vote,
+    Comments,
+    Report,
+    # getCommunityPosts,
+    approve_reply,
+    reject_reply,
+    remove_from_discussion,
+)
+
+urlpatterns = [
+    path("", PostAPI.as_view()),
+    # path('get-user-tagged-posts/', GetUserTaggedPosts.as_view()),
+    path("user/<str:username>/", UserPosts.as_view()),
+    path("friends/", FriendsPosts.as_view()),
+    path("hashtag/<str:hashtag>/", HashTagPostAPI.as_view()),
+    path("community/<str:samaj>/get-pinned-post/", get_pinned_post),
+    path("community/<str:slug>/<str:id>/", CommunityPostAPI.as_view()),
+    path("<str:slug_or_id>/details/", PostDetailAPI.as_view()),
+    path("<str:pid>/comments/", Comments.as_view()),
+    path("<str:pid>/like/", like),
+    path("comment/approve-reply/", approve_reply),
+    path("comment/reject-reply/", reject_reply),
+    path("comment/remove_from_discussion/", remove_from_discussion),
+    path("comment/vote-up/", up_vote),
+    path("comment/vote-down/", down_vote),
+    path("delete/", delete),
+    path("report/", Report.as_view()),
+]

@@ -7,7 +7,6 @@ from django.contrib.auth.models import AbstractUser
 from django.core.cache import cache
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 
@@ -21,7 +20,6 @@ class Role(models.Model):
         return self.title
 
 
-@python_2_unicode_compatible
 class User(AbstractUser):
     uid = models.CharField(unique=True, null=True, blank=True, max_length=255)
     gender = models.ForeignKey(Gender, on_delete=models.CASCADE, null=True)
@@ -62,7 +60,7 @@ class User(AbstractUser):
                 raise ValidationError(
                     detail={
                         "username": "username must be 4-18 char long and must not contain any special chars "
-                        "or white spaces except _ "
+                                    "or white spaces except _ "
                     },
                     code=status.HTTP_400_BAD_REQUEST,
                 )
@@ -70,9 +68,9 @@ class User(AbstractUser):
         # email
         if self.email:
             if (
-                self.__class__.objects.filter(email=self.email)
-                .exclude(id=self.id)
-                .exists()
+                    self.__class__.objects.filter(email=self.email)
+                            .exclude(id=self.id)
+                            .exists()
             ):
                 raise ValidationError(
                     detail={"email": "Email already taken."},
@@ -108,10 +106,10 @@ class User(AbstractUser):
 
         # names
         if (
-            not self.first_name
-            or self.first_name == ""
-            or not self.last_name
-            or self.last_name == ""
+                not self.first_name
+                or self.first_name == ""
+                or not self.last_name
+                or self.last_name == ""
         ):
             raise ValidationError(
                 detail={"names": "first name and last name is required."},

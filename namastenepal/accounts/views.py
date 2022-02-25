@@ -3,7 +3,6 @@ import re
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.sites.models import Site as DjangoSite
 from django.core.cache import cache
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
@@ -13,12 +12,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.utils import timezone
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from twilio.rest import Client
 
 from django_rest_passwordreset.signals import reset_password_token_created
 from namastenepal.core.models import User, Gender
@@ -27,8 +27,6 @@ from namastenepal.usermodule.models import Friend, FriendRequest
 from namastenepal.usermodule.models import Profile
 from .serializers import UserSerializer, UserMiniSerializer
 from .tokens import account_activation_token
-
-from twilio.rest import Client
 
 # Initialize Twilio client
 client = Client(username=settings.TWILIO_ACCOUNT_SID,
@@ -218,7 +216,7 @@ class CreateUser(APIView):
                     username=username, gender=_gender)
                 try:
                     current_site = get_current_site(request)
-                except DjangoSite.DoesNotExist:
+                except Exception as e:  # DjangoSite.DoesNotExist:
                     current_site = type('', (), {})()
                     current_site.domain = "www.namastenepal.com"
 
@@ -242,17 +240,20 @@ class CreateUser(APIView):
 
                     # send email
                     if v_method == "email":
-                        verification_status = send_email(request,
-                                                         current_site,
-                                                         email_or_phone,
-                                                         user,
-                                                         account_activation_token)
+                        verification_status = send_email(
+                            request,
+                            current_site,
+                            email_or_phone,
+                            user,
+                            account_activation_token
+                        )
                     else:
                         try:
                             verification_status = send_phone_verification(
                                 email_or_phone)
                         except Exception as e:
                             print(e)
+                            print("helo")
                             User.objects.get(username=username).delete()
                             return Response(
                                 data={"email_or_phone": "Please enter your number and country code as instructed."},
@@ -364,7 +365,8 @@ class PhoneVerify(APIView):
                 user.save()
                 return Response({"success": "verification succeed", "status": "approved"}, status=status.HTTP_200_OK)
             else:
-                return Response({"error": "verification failed", "status": "failed"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "verification failed", "status": "failed"},
+                                status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(e)
             return Response({"error": "verification failed", "status": "failed"}, status=status.HTTP_400_BAD_REQUEST)
@@ -454,7 +456,7 @@ def change_password(request):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None

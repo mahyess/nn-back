@@ -1,18 +1,16 @@
-import jwt
-
 from calendar import timegm
 from datetime import datetime, timedelta
-from django.utils import timezone
 
+import jwt
 from django.contrib.auth import authenticate, get_user_model
-from django.utils.translation import ugettext as _
-from rest_framework import serializers
-from .compat import Serializer
-
-from rest_framework_jwt.settings import api_settings
-from rest_framework_jwt.compat import get_username_field, PasswordField
 from django.core.cache import cache
-from django.conf import settings
+from django.utils import timezone
+from django.utils.translation import gettext as _
+from rest_framework import serializers
+
+from rest_framework_jwt.compat import get_username_field, PasswordField
+from rest_framework_jwt.settings import api_settings
+from .compat import Serializer
 
 User = get_user_model()
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER

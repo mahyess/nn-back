@@ -1,34 +1,18 @@
-caches
-venv
+
+### Django ###
+*.log
+*.pot
 *.pyc
-reactify-ui/build/
-reactify-ui/node_modules/
-reactify-ui/public/
-reactify-ui/staticfiles/
-reactify-ui/static/
-local.config
-
-nn-ec2keys.pem
-
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
-node_modules/
-
-.vscode/
-.idea/
-
-
-namastenepal/settings/local.py
-
-static
-staticfiles
-static-cdn-local
-
-db.sqlite3
-
-# Byte-compiled / optimized / DLL files
 __pycache__/
+local_settings.py
+db.sqlite3
+media/
+staticfiles/
+
+# Backup files # 
+*.bak 
+
+### Django.Python Stack ###
 *.py[cod]
 *$py.class
 
@@ -49,9 +33,13 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.Python build/ 
+MANIFEST
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -66,43 +54,29 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
+.nox/
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
 .hypothesis/
+.pytest_cache/
+cover/
+
+
 
 # Translations
 *.mo
-*.pot
 
-# Django stuff:
-*.log
-local_settings.py
+# pyenv 
+.python-version 
 
-# Flask stuff:
-instance/
-.webassets-cache
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
 
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
 
 # SageMath parsed files
 *.sage.py
@@ -113,22 +87,32 @@ celerybeat-schedule
 env/
 venv/
 ENV/
+env.bak/
+venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
+# mkdocs documentation 
+/site 
 
 # mypy
 .mypy_cache/
+.dmypy.json
+dmypy.json
 
-media/
+# Pyre type checker
+.pyre/
 
-# firebase admin sdk json file
-**/*-adminsdk.json
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+.history
+
+namaste-nepal-firebase-adminsdk.json

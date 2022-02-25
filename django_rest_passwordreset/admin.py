@@ -1,5 +1,6 @@
 """ contains basic admin views for MultiToken """
 from django.contrib import admin
+
 from django_rest_passwordreset.models import ResetPasswordToken
 
 

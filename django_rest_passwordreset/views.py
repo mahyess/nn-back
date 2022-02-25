@@ -1,16 +1,17 @@
 from datetime import timedelta
-from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.contrib.auth.password_validation import validate_password, get_password_validators
-from django.utils.translation import ugettext_lazy as _
-from django.utils import timezone
+
 from django.conf import settings
-from rest_framework import status, serializers, exceptions
+from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password, get_password_validators
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from rest_framework import status, exceptions
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from django_rest_passwordreset.serializers import EmailSerializer, PasswordTokenSerializer
 from django_rest_passwordreset.models import ResetPasswordToken, clear_expired, get_password_reset_token_expiry_time
+from django_rest_passwordreset.serializers import EmailSerializer, PasswordTokenSerializer
 from django_rest_passwordreset.signals import reset_password_token_created, pre_password_reset, post_password_reset
 
 User = get_user_model()
@@ -49,7 +50,7 @@ class ResetPasswordConfirm(GenericAPIView):
 
         # check expiry date
         expiry_date = reset_password_token.created_at + \
-            timedelta(hours=password_reset_token_validation_time)
+                      timedelta(hours=password_reset_token_validation_time)
 
         if timezone.now() > expiry_date:
             # delete expired token

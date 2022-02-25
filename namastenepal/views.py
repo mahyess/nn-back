@@ -1,45 +1,35 @@
 from datetime import timedelta
 
 from django.db.models import Count, Q
-from django.utils import timezone
-
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+from django.template.exceptions import TemplateDoesNotExist
+from django.utils import timezone
 from django.views.generic import View
-from graphene_django.views import GraphQLView
+# from graphene_django.views import GraphQLView
 from rest_framework import serializers
-from rest_framework.decorators import (
-    authentication_classes,
-    permission_classes,
-    api_view,
-)
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.request import Request as DRFRequest
-from rest_framework.settings import api_settings
 
 from namastenepal.core.models import HashTag
 
 
-class PrivateGraphQLView(GraphQLView):
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(PrivateGraphQLView, self).dispatch(request, *args, **kwargs)
-
-    def parse_body(self, request):
-        if isinstance(request, DRFRequest):
-            return request.data
-        return super(PrivateGraphQLView, self).parse_body(request)
-
-    @classmethod
-    def as_view(cls, *args, **kwargs):
-        view = super(PrivateGraphQLView, cls).as_view(*args, **kwargs)
-        view = permission_classes((IsAuthenticated,))(view)
-        view = authentication_classes(api_settings.DEFAULT_AUTHENTICATION_CLASSES)(view)
-        view = api_view(["GET", "POST"])(view)
-        return view
+# class PrivateGraphQLView(GraphQLView):
+#     @method_decorator(csrf_exempt)
+#     def dispatch(self, request, *args, **kwargs):
+#         return super(PrivateGraphQLView, self).dispatch(request, *args, **kwargs)
+#
+#     def parse_body(self, request):
+#         if isinstance(request, DRFRequest):
+#             return request.data
+#         return super(PrivateGraphQLView, self).parse_body(request)
+#
+#     @classmethod
+#     def as_view(cls, *args, **kwargs):
+#         view = super(PrivateGraphQLView, cls).as_view(*args, **kwargs)
+#         view = permission_classes((IsAuthenticated,))(view)
+#         view = authentication_classes(api_settings.DEFAULT_AUTHENTICATION_CLASSES)(view)
+#         view = api_view(["GET", "POST"])(view)
+#         return view
 
 
 class HashTagListSerializer(serializers.ModelSerializer):
@@ -91,7 +81,7 @@ class FrontendAppView(View):
     def get(request):
         try:
             return render(request, "build/index.html")
-        except FileNotFoundError:
+        except (FileNotFoundError, TemplateDoesNotExist):
             return HttpResponse(
                 """
                 This URL is only used when you have built the production

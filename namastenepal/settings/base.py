@@ -1,5 +1,6 @@
-import os
 import datetime
+import os
+
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -18,9 +19,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
-    "jet_django",
-    "jet.dashboard",
-    "jet",
+    "django_admin_mazer",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,9 +45,8 @@ INSTALLED_APPS = [
     "namastenepal.notifications.apps.NotificationsConfig",
     "firebase.apps.FirebaseConfig",
     "channels",
-    "dbbackup",
     "namastenepal.channels_app.apps.ChannelsAppConfig",
-    "graphene_django",
+    # "graphene_django",
 ]
 
 MIDDLEWARE = [
@@ -130,12 +128,13 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Kathmandu"
+# TIME_ZONE = "UTC"
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -143,12 +142,9 @@ USE_TZ = True
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
-REACT_APP_DIR = os.path.join(BASE_DIR, "frontend-namaste-nepal")
-
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
-    os.path.join(REACT_APP_DIR, "build", "static"),
     os.path.join(BASE_DIR, "staticfiles"),
 ]
 
@@ -169,7 +165,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_THROTTLE_CLASSES": (
         "rest_framework.throttling.UserRateThrottle",
@@ -197,7 +193,7 @@ ASGI_APPLICATION = "namastenepal.channels_app.routing.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {"hosts": ["redis://localhost:6379"]},
+        "CONFIG": {"hosts": [('redis', 6379)], },
     },
 }
 
@@ -244,12 +240,6 @@ LOGGING = {
     },
 }
 
-# dbbackup
-DBBACKUP_STORAGE = "storages.backends.dropbox.DropBoxStorage"
-DBBACKUP_STORAGE_OPTIONS = {
-    "oauth2_access_token": "LKCxiyPHanAAAAAAAAAAee7XRxOxUf_rMiB9rMaxk-S_ec_48eD0WU9jjMlrsyuo",
-}
-
 if os.name == "nt":
     CACHES = {
         "default": {
@@ -284,3 +274,5 @@ DEFAULT_EMAIL = config("EMAIL_USER")
 # for jet admin panel
 JET_PROJECT = 'namastenepal_2'
 JET_TOKEN = '42cf7e56-de5e-4280-9462-99afa7c4033c'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
